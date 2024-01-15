@@ -74,6 +74,3 @@ def get_recommendations():
     response = recommend_anime(input_title, 'Cluster_model1', df) 
     return jsonify(response)
 
-if __name__ == '__main__':
-    app.run()
-
