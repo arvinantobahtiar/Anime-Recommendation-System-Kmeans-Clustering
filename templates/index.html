@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anime Recommendation System</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="header">
+        <div class="title">
+            <h1 class="text-3xl font-bold mb-4 text-center" id="web-name">Find Anime by Your Preferences</h1>
+        </div>
+    </div>
+    <div class="main-container">
+        <div class="container">
+            <form id="animeForm">
+                <label for="title" class="block text-sm font-medium text-gray-700">Enter the title of an anime:</label>
+                <input type="text" id="title" name="title" class="form-input" required>
+                <button type="submit" id="button" class="bg-purple-400 hover:bg-purple-500 font-bold rounded-full">Get Recommendations</button>
+            </form>
+            <div id="recommendations" class="recommendations"></div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('animeForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const title = document.getElementById('title').value;
+            fetch('/recommend', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ title })
+            })
+            .then(response => response.json())
+            .then(data => {
+                const recommendationsDiv = document.getElementById('recommendations');
+                recommendationsDiv.innerHTML = '';  // Clear previous content
+
+                // Display the matched anime
+                if (data.matched_anime) {
+                    const matchedAnimeDiv = document.createElement('div');
+                    matchedAnimeDiv.innerHTML = `<h2 class="text-xl font-bold mb-2">Matched Anime:</h2>
+                                                 <p>${data.matched_anime}</p>`;
+                    recommendationsDiv.appendChild(matchedAnimeDiv);
+                }
+
+                // Display the recommendations
+                if (data.recommendations.length > 0) {
+                    const ul = document.createElement('ul');
+                    ul.innerHTML = '<h2 class="text-xl font-bold mb-2">Recommendations:</h2>';
+                    data.recommendations.forEach((anime, index) => {
+                        const li = document.createElement('li');
+                        li.textContent = `${index + 1}. ${anime}`;
+                        ul.appendChild(li);
+                    });
+                    recommendationsDiv.appendChild(ul);
+                } else {
+                    recommendationsDiv.innerHTML = '<p>No recommendations found.</p>';
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    </script>
+</body>
+</html>
