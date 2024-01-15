@@ -3,11 +3,19 @@
     "builds": [
       {
         "src": "gunicorn_config.py",
-        "use": "@now/python"
+        "use": "@now/python",
+        "config": {
+          "maxLambdaSize": "1024mb",
+          "runtime": "python3.8" 
+        }
       },
       {
         "src": "app.py",
-        "use": "@now/python"
+        "use": "@now/python",
+        "config": {
+          "maxLambdaSize": "1024mb",
+          "runtime": "python3.8" 
+        }
       }
     ],
     "routes": [
