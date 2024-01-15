@@ -3,7 +3,7 @@
     "builds": [
       {
         "src": "gunicorn_config.py",
-        "use": "@now/python",
+        "use": "@vercel/python",
         "config": {
           "maxLambdaSize": "1024mb",
           "runtime": "python3.9" 
@@ -11,7 +11,7 @@
       },
       {
         "src": "app.py",
-        "use": "@now/python",
+        "use": "@vercel/python",
         "config": {
           "maxLambdaSize": "1024mb",
           "runtime": "python3.9" 
