@@ -5,8 +5,6 @@ from fuzzywuzzy import process
 import random
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.preprocessing import StandardScaler
-from sklearn.decomposition import PCA
-from sklearn.cluster import KMeans
 from sklearn.pipeline import Pipeline
 
 app = Flask(__name__)
