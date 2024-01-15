@@ -1,15 +1,28 @@
 {
     "version": 2,
     "builds": [
-        {
-            "src": "app.py",
-            "use": "@vercel/python"
-        }
+      {
+        "src": "gunicorn_config.py",
+        "use": "@now/python"
+      },
+      {
+        "src": "app.py",
+        "use": "@now/python"
+      }
     ],
     "routes": [
-        {
-            "src": "(.*)",
-            "dest": "app.py"
-        }
+      {
+        "src": "/(.*)",
+        "dest": "gunicorn_config.py"
+      },
+      {
+        "src": "/app/(.*)",
+        "dest": "app.py"
+      },
+      {
+        "src": "/(.*)",
+        "dest": "gunicorn_config.py",
+        "continue": true
+      }
     ]
-  }
+  }  
